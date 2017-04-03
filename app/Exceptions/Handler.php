@@ -44,6 +44,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Solarium\Exception\HttpException) {
+            if($exception->getCode() == 0) {
+                return response()->json(['solr_setup_problem'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            return response()->json(['solr_failed'], $exception->getCode());
+        } else {
+            Log::emergency($exception->getMessage());
+            return response()->json(['Bad request', $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+
         return parent::render($request, $exception);
     }
 

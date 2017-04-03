@@ -2,29 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
+use App\Traits\Solr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Renate\Timezones\Timezone;
 
 class UserController extends Controller
 {
-    public function authorizeUser()
-    {
-    	$user = app('Dingo\Api\Auth\Auth')->user();
 
-    	if(!$user) {
-    		$responseArray = [
-    			'message' => 'Not authorized. Please login again.',
-    			'status' => false
-    		];
+    use Solr;
 
-    		return $this->response->array($responseArray)->setStatusCode(403);
-    	} else {
-    		$responseArray = [
-    			'message' => 'User is Authorized',
-    			'status' => true
-    		];
+    public function hello() {
+        // create a ping query
+        $ping = $this->client->createPing();
 
-    		return $this->response->array($responseArray)->setStatusCode(200);
-    	}
+        // execute the ping query
+        $this->client->ping($ping);
+        return response()->json(["Solr OK", $this->getUser(), Helper::getVersion(), Timezone::currentTimezone()]);
     }
+
 }

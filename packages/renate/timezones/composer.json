@@ -1,0 +1,14 @@
+{
+    "name": "renate/timezones",
+    "type": "library",
+    "require": {
+        "nesbot/carbon": "^1.22",
+        "php": "^5.6"
+    },
+    "authors": [
+        {
+            "name": "Mihir Vadalia",
+            "email": "mihirvadalia91@gmail.com"
+        }
+    ]
+}

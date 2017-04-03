@@ -188,6 +188,8 @@ return [
 
         Zizaco\Entrust\EntrustServiceProvider::class,
 
+        App\Providers\SolariumServiceProvider::class,
+
     ],
 
     /*

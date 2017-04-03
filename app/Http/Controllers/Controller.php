@@ -8,7 +8,12 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Dingo\Api\Routing\Helpers;
 
+
 class Controller extends BaseController
 {
     use Helpers, AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function getUser() {
+        return app('Dingo\Api\Auth\Auth')->user();
+    }
 }
