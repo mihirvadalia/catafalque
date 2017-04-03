@@ -190,6 +190,8 @@ return [
 
         App\Providers\SolariumServiceProvider::class,
 
+        Barryvdh\Cors\ServiceProvider::class,
+
     ],
 
     /*

@@ -25,7 +25,3 @@ $api->version('v1', ['middleware' => 'api.auth'], function ($api) {
     $api->get('user/validate', 'App\Http\Controllers\UserController@authorizeUser');
     $api->get('user/test', 'App\Http\Controllers\UserController@hello');
 });
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
