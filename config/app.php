@@ -184,6 +184,12 @@ return [
 
         App\Providers\OAuthServiceProvider::class,
 
+        Intervention\Image\ImageServiceProvider::class,
+
+        Zizaco\Entrust\EntrustServiceProvider::class,
+
+        App\Providers\SolariumServiceProvider::class,
+
     ],
 
     /*
@@ -233,6 +239,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Authorizer' => LucaDegasperi\OAuth2Server\Facades\Authorizer::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
 
     ],
 
