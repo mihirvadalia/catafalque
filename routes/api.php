@@ -15,12 +15,12 @@ use Illuminate\Http\Request;
 
 $api = app('Dingo\Api\Routing\Router');
 
+// Open Routes
 $api->version('v1', function ($api) {
-	$api->post('oauth/access_token', function() {
-		return Authorizer::issueAccessToken();
-	});
+	$api->post('oauth/access_token', 'App\Http\Controllers\AuthController@login');
 });
 
+// Secured Routes with Oauth Header (Bearer)
 $api->version('v1', ['middleware' => 'api.auth'], function ($api) {
     $api->get('user/validate', 'App\Http\Controllers\UserController@authorizeUser');
     $api->get('user/test', 'App\Http\Controllers\UserController@hello');

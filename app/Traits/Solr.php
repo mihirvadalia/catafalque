@@ -2,6 +2,11 @@
 
 namespace App\Traits;
 
+/**
+ * Helper functions for Solr
+ * Class Solr
+ * @package App\Traits
+ */
 trait Solr {
 
     protected $client;
