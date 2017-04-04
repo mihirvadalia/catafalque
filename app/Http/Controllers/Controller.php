@@ -13,6 +13,7 @@ class Controller extends BaseController
 {
     use Helpers, AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    // Get Authenticated User from Oauth
     public function getUser() {
         return app('Dingo\Api\Auth\Auth')->user();
     }

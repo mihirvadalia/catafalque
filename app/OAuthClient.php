@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * OAuthClient Model
+ * Class OAuthClient
+ * @package App
+ */
 class OAuthClient extends Model
 {
     protected $table = 'oauth_clients';
