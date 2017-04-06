@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -32,6 +34,13 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof \Solarium\Exception\HttpException) {
+            if($exception->getCode() == 0) {
+                return response()->json(['solr_setup_problem'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            return response()->json(['solr_failed'], $exception->getCode());
+        }
+
         parent::report($exception);
     }
 
@@ -44,16 +53,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Solarium\Exception\HttpException) {
-            if($exception->getCode() == 0) {
-                return response()->json(['solr_setup_problem'], Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
-            return response()->json(['solr_failed'], $exception->getCode());
-        } else {
-            Log::emergency($exception->getMessage());
-            return response()->json(['Bad request', $exception->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
-
         return parent::render($request, $exception);
     }
 

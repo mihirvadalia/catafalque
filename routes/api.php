@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,12 +15,15 @@ $api = app('Dingo\Api\Routing\Router');
 
 // Open Routes
 $api->version('v1', function ($api) {
-	$api->post('oauth/access_token', 'App\Http\Controllers\AuthController@login');
+	$api->post('oauth/access_token', 'App\Http\Controllers\Api\AuthController@login');
 });
 
 // Secured Routes with Oauth Header (Bearer)
 $api->version('v1', ['middleware' => 'api.auth'], function ($api) {
-    $api->get('user/validate', 'App\Http\Controllers\UserController@authorizeUser');
-    $api->get('user/test', 'App\Http\Controllers\UserController@hello');
-    $api->get('user/list', 'App\Http\Controllers\UserController@getList');
+    $api->get('user/validate', 'App\Http\Controllers\Api\UserController@authorizeUser');
+    $api->post('user/test', 'App\Http\Controllers\Api\UserController@hello');
+    $api->get('user/list', 'App\Http\Controllers\Api\UserController@getList');
+
+    // Image Utilities
+    $api->get('images/{filename}', 'App\Http\Controllers\ImageController@show')->where('filename', '.*');
 });
