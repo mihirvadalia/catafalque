@@ -23,6 +23,10 @@ class UserController extends ApiController
      * @return mixed
      */
     public function hello(Request $request) {
+        dd(Activity::all());
+        activity()->log('Look mum, I logged something');
+
+        dd('done');
         $this->validate($request, [
             'avatar' => 'required'
         ]);
