@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Renate\Timezones\Timezone;
+use Spatie\Activitylog\Models\Activity;
 
 class UserController extends ApiController
 {
@@ -22,6 +23,10 @@ class UserController extends ApiController
      * @return mixed
      */
     public function hello(Request $request) {
+        dd(Activity::all());
+        activity()->log('Look mum, I logged something');
+
+        dd('done');
         $this->validate($request, [
             'avatar' => 'required'
         ]);
