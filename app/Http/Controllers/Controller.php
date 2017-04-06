@@ -6,15 +6,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Dingo\Api\Routing\Helpers;
 
 
 class Controller extends BaseController
 {
-    use Helpers, AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-    // Get Authenticated User from Oauth
-    public function getUser() {
-        return app('Dingo\Api\Auth\Auth')->user();
-    }
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }
