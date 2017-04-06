@@ -194,6 +194,8 @@ return [
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
+
     ],
 
     /*

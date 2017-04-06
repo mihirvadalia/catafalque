@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Renate\Timezones\Timezone;
+use Spatie\Activitylog\Models\Activity;
 
 class UserController extends ApiController
 {
