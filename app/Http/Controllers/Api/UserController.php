@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
+use App\Test;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,7 +17,14 @@ class UserController extends ApiController
      */
     public function index()
     {
-        //
+        $user           = new Test();
+        //$user->name     = 'John doe';
+        $user->address    = 'john@doe.com';
+        $user->status = 'test';
+
+        $success = $user->save();
+
+        dd($user->errors());
     }
 
     /**
