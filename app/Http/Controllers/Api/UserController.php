@@ -2,64 +2,93 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Helpers\Helper;
 use App\Http\Controllers\ApiController;
-use App\Traits\File;
-use App\Traits\Solr;
-use App\Transformers\UserTransformer;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Renate\Timezones\Timezone;
-use Spatie\Activitylog\Models\Activity;
+use App\Http\Controllers\Controller;
 
 class UserController extends ApiController
 {
-
-    use Solr, File;
-
     /**
-     * @param Request $request
-     * @return mixed
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function hello(Request $request) {
-        dd(Activity::all());
-        activity()->log('Look mum, I logged something');
-
-        dd('done');
-        $this->validate($request, [
-            'avatar' => 'required'
-        ]);
-
-        // create a ping query
-        $ping = $this->client->createPing();
-
-        // execute the ping query
-        $this->client->ping($ping);
-
-        // File System
-        $this->deleteAllImages('avatars/wkMmlcAKAK12d0rucQ6ca45XaTO9YbGAIfB34yEG.jpeg');
-        $path = $this->storeFile($request, 'avatar', 'avatars');
-        $this->resizeImage($path, 400);
-        $this->resizeImage($path, 300);
-        $this->resizeImage($path, 200);
-        $this->resizeImage($path, 100);
-
-        return response()->json([
-            "solr" => "Solr OK",
-            "user" => $this->getUser(),
-            "version" => Helper::getVersion(),
-            "timezone" => Timezone::currentTimezone(),
-            "path" => $path
-        ]);
-    }
-
-    /**
-     * @return \Dingo\Api\Http\Response
-     */
-    public function getList()
+    public function index()
     {
-        return $this->response->collection(User::all(), new UserTransformer);
+        //
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        User::create($request->all());
+        return $this->response->created();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

@@ -1,0 +1,16 @@
+{
+    "name": "renate/oauth-connector",
+    "type": "library",
+    "require": {
+        "dingo/api": "^0.10.0",
+        "league/oauth2-server": "^5.1",
+        "lucadegasperi/oauth2-server-laravel": "^5.2",
+        "spatie/laravel-activitylog": "^1.12"
+    },
+    "authors": [
+        {
+            "name": "Mihir Vadalia",
+            "email": "mihirvadalia91@gmail.com"
+        }
+    ]
+}

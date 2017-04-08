@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Activitylog\Traits\CausesActivity;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 /**
@@ -13,6 +15,13 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 class User extends Authenticatable
 {
     use EntrustUserTrait, Notifiable;
+
+    use CausesActivity, LogsActivity {
+        LogsActivity::activity insteadof CausesActivity;
+        CausesActivity::activity as log;
+    }
+
+    protected static $logAttributes = ['name', 'email'];
 
     /**
      * The attributes that are mass assignable.
