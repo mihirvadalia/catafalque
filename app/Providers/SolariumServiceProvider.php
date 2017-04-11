@@ -26,7 +26,7 @@ class SolariumServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(Client::class, function ($app) {
+        $this->app->singleton(Client::class, function ($app) {
             return new Client($app['config']['solarium']);
         });
     }

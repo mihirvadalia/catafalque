@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Solr\Cores\LarangCore;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Activitylog\Traits\CausesActivity;
@@ -40,4 +41,22 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     *
+     */
+    public static function boot() {
+        // Initialize Container for Solr
+        $larangCore = app(LarangCore::class);
+
+        // Boot Parent Class
+        parent::boot();
+
+        // Event while Create/Update User record
+        self::saved(function($user) use ($larangCore)
+        {
+            // Run indexer for update in solr
+            $larangCore->indexer('user', $user->id);
+        });
+    }
 }

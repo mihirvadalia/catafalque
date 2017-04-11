@@ -26,15 +26,16 @@
         "barryvdh/laravel-cors": "^0.9.2",
         "dingo/api": "1.0.x@dev",
         "dompdf/dompdf": "~0.6.1",
+        "guzzlehttp/guzzle": "~6.0",
         "intervention/image": "^2.3",
+        "laravel-vault/laravel-activitylog": "dev-master",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "laravelbook/ardent": "^3.4",
         "lucadegasperi/oauth2-server-laravel": "5.2.*",
         "maatwebsite/excel": "~2.1.0",
         "solarium/solarium": "^3.8",
-        "zizaco/entrust": "5.2.x-dev",
-        "laravel-vault/laravel-activitylog": "dev-master"
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
