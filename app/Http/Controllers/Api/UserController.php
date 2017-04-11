@@ -3,28 +3,41 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
-use App\Test;
+use App\Solr\Cores\LarangCore;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class UserController extends ApiController
 {
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user           = new Test();
-        //$user->name     = 'John doe';
-        $user->address    = 'john@doe.com';
-        $user->status = 'test';
-
-        $success = $user->save();
-
-        dd($user->errors());
+        $larangCore = app(LarangCore::class);
+        $result = $larangCore->select($request->all(), [
+            "responseType" => "result", // result or query
+            "facets" => [
+                "levelName" => [
+                    "type" => "list",
+                    "field" => "userEmail",
+                    "label" => "User Email"
+                ]
+            ],
+            "filter" => [
+                "rowType" => "rowType:User"
+            ],
+            "search" => [
+                "type" => "simple",
+                "query" => 'searchTextUser:("*###SEARCHTERM###*")'
+            ],
+            "sort" => ["createdDate", "desc"]
+        ]);
+        return $this->response->array($result);
     }
 
     /**
@@ -52,6 +65,7 @@ class UserController extends ApiController
         ]);
 
         User::create($request->all());
+
         return $this->response->created();
     }
 
