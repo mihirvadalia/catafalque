@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
 use App\Solr\Cores\LarangCore;
+use App\Transformers\UserTransformer;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -41,16 +42,6 @@ class UserController extends ApiController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -60,7 +51,7 @@ class UserController extends ApiController
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'password' => 'required'
         ]);
 
@@ -77,18 +68,9 @@ class UserController extends ApiController
      */
     public function show($id)
     {
-        //
-    }
+        $user = User::findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return $this->response->item($user, new UserTransformer());
     }
 
     /**
@@ -100,7 +82,13 @@ class UserController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        User::find($id)->update($request->all());
+
+        return $this->response->created($id);
     }
 
     /**
