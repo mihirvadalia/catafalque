@@ -10,7 +10,7 @@ use App\User;
  * Class PasswordGrantVerifier
  * @package App\Verifiers
  */
-class PasswordGrantVerifier
+class MobileGrantVerifier
 {
     /**
      * Verify the credentials provided by login screen

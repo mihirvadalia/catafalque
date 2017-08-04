@@ -23,7 +23,7 @@ class UserController extends ApiController
         $result = $larangCore->select($request->all(), [
             "responseType" => "result", // result or query
             "facets" => [
-                "levelName" => [
+                "userEmail" => [
                     "type" => "list",
                     "field" => "userEmail",
                     "label" => "User Email"
