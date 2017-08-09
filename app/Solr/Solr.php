@@ -56,7 +56,8 @@ class Solr {
         }
 
         list($sortOn, $sortBy) = isset($request['SORT_BY']) ? explode('-', $request['SORT_BY']) : $this->selectConfig['sort'];
-        // Sort result set
+        list($sortOn, $sortBy) = $request[''];
+            // Sort result set
         $this->_set_sorting($sortOn, $sortBy);
 
         if ($this->selectConfig['responseType'] == 'result') {

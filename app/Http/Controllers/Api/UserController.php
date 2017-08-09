@@ -38,6 +38,7 @@ class UserController extends ApiController
             ],
             "sort" => ["createdDate", "desc"]
         ]);
+        $result['draw'] = $request->get('draw');
         return $this->response->array($result);
     }
 
