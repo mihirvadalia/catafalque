@@ -34,7 +34,7 @@ class UserController extends ApiController
             ],
             "search" => [
                 "type" => "simple",
-                "query" => 'searchTextUser:("*###SEARCHTERM###*")'
+                "query" => 'userName:("*###SEARCHTERM###*")'
             ],
             "sort" => ["createdDate", "desc"]
         ]);

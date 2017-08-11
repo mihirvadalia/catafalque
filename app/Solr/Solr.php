@@ -143,7 +143,7 @@ class Solr {
      */
     public function _set_search_filter($input) {
         if ($this->selectConfig['search']['type'] == 'simple') {
-            $searchParam = isset($input['SEARCHPARAM']) ? $input['SEARCHPARAM'] : '';
+            $searchParam = isset($input['search']['value']) ? $input['search']['value'] : '';
             if ($searchParam != '') {
                 $searchParam = str_replace(" ", "\ ", $searchParam);
                 $this->selectQuery->createFilterQuery('searchQuery')->setQuery(str_replace("###SEARCHTERM###", $searchParam, $this->selectConfig['search']['query']));
