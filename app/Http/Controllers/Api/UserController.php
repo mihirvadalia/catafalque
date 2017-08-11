@@ -27,6 +27,11 @@ class UserController extends ApiController
                     "type" => "list",
                     "field" => "userEmail",
                     "label" => "User Email"
+                ],
+                "userName" => [
+                    "type" => "list",
+                    "field" => "userName",
+                    "label" => "User Name"
                 ]
             ],
             "filter" => [
