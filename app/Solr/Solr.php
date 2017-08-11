@@ -55,9 +55,11 @@ class Solr {
             $this->_set_limits($firstIndex, $maxResult);
         }
 
-        list($sortOn, $sortBy) = isset($request['SORT_BY']) ? explode('-', $request['SORT_BY']) : $this->selectConfig['sort'];
-        list($sortOn, $sortBy) = $request[''];
-            // Sort result set
+        //list($sortOn, $sortBy) = isset($request['SORT_BY']) ? explode('-', $request['SORT_BY']) : $this->selectConfig['sort'];
+        $cols = json_decode($request['cols'], true);
+        $sortOn = $cols[$request['order'][0]['column']]['data'];
+        $sortBy = $request['order'][0]['dir'];
+        // Sort result set
         $this->_set_sorting($sortOn, $sortBy);
 
         if ($this->selectConfig['responseType'] == 'result') {
