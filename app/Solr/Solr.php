@@ -46,8 +46,8 @@ class Solr {
             $this->_set_select_fields($this->selectConfig['fields']);
         }
 
-        $firstIndex = isset($request['firstIndex']) ? $request['firstIndex'] : 0;
-        $maxResult = isset($request['maxResult']) ? $request['maxResult'] : env('PAGINATION_MAX_ROWS');
+        $firstIndex = isset($request['start']) ? $request['start'] : 0;
+        $maxResult = isset($request['length']) ? $request['length'] : env('PAGINATION_MAX_ROWS');
         // Limit result set
         if (isset($this->selectConfig['paging']) && $this->selectConfig['paging'] == false) {
             $this->_set_limits(0, 2147483647);
