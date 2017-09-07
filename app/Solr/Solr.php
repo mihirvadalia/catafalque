@@ -91,10 +91,12 @@ class Solr {
         // Fetching facets
         $facets = [];
         foreach ($this->selectConfig['facets'] as $facetKey => $facet) {
-            $facetList = $result->getFacetSet()->getFacet($facetKey)->getValues();
-            $facets[$facet['label']]['list'] = $facetList;
-            $facets[$facet['label']]['type'] = $facet['type'];
-            $facets[$facet['label']]['name'] = $facet['field'];
+            if ($facet['type'] == 'list') {
+                $facetList = $result->getFacetSet()->getFacet($facetKey)->getValues();
+                $facets[$facet['label']]['list'] = $facetList;
+                $facets[$facet['label']]['type'] = $facet['type'];
+                $facets[$facet['label']]['name'] = $facet['field'];
+            }
         }
 
         // Count of record
