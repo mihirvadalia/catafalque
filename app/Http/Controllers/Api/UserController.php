@@ -107,7 +107,5 @@ class UserController extends ApiController
     {
         $user = User::findOrFail($id);
         $user->delete();
-
-        return $this->response->accepted();
     }
 }

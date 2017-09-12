@@ -58,5 +58,10 @@ class User extends Authenticatable
             // Run indexer for update in solr
             $larangCore->indexer('user', $user->id);
         });
+        self::deleted(function($user) use ($larangCore)
+        {
+            // Run indexer for update in solr
+            $larangCore->deleteDocument('user-' . $user->id);
+        });
     }
 }

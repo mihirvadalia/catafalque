@@ -219,4 +219,18 @@ class Solr {
         return json_decode($request->getBody()->getContents());
     }
 
+    public function deleteDocument($documentId)
+    {
+        $update = $this->client->createUpdate();
+
+        // add the delete id and a commit command to the update query
+        $update->addDeleteById($documentId);
+        $update->addCommit();
+
+        // this executes the query and returns the result
+        $result = $this->client->update($update);
+
+        return $result->getStatus();
+    }
+
 }
