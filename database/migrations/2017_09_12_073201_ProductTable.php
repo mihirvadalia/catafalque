@@ -13,12 +13,14 @@ class ProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('upc');
+            $table->string('sku');
+            $table->string('ean');
+            $table->double('price');
+            $table->double('saleprice');
             $table->timestamps();
         });
     }

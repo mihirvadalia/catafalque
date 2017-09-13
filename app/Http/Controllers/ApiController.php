@@ -34,4 +34,9 @@ class ApiController extends BaseController
             throw new ValidationHttpException($validator->errors());
         }
     }
+
+    public function throwArdentException($errors)
+    {
+        throw new ValidationHttpException($errors);
+    }
 }
