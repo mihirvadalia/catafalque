@@ -21,6 +21,10 @@ $api->version('v1', function ($api) {
 // Secured Routes with Oauth Header (Bearer)
 $api->version('v1', ['middleware' => 'api.auth'], function ($api) {
     $api->resource('users', 'App\Http\Controllers\Api\UserController');
+    $api->post('users/list', 'App\Http\Controllers\Api\UserController@index');
+
+    $api->resource('products', 'App\Http\Controllers\Api\ProductController');
+    $api->post('products/list', 'App\Http\Controllers\Api\ProductController@index');
 
     // Image Utilities
     $api->get('images/{filename}', 'App\Http\Controllers\ImageController@show')->where('filename', '.*');

@@ -28,6 +28,11 @@ return [
     */
 
     'grant_types' => [
+        'mobile' => [
+            'class' => '\League\OAuth2\Server\Grant\MobileGrant',
+            'callback' => '\App\Verifiers\MobileGrantVerifier@verify',
+            'access_token_ttl' => 2592000
+        ],
         'password' => [
             'class' => '\League\OAuth2\Server\Grant\PasswordGrant',
             'callback' => '\App\Verifiers\PasswordGrantVerifier@verify',

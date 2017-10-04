@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
 use App\Solr\Cores\LarangCore;
-use App\Transformers\UserTransformer;
-use App\User;
+use App\Transformers\ProductTransformer;
+use App\Product;
+use Dingo\Api\Exception\ValidationHttpException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use LaravelArdent\Ardent\Ardent;
 
-class UserController extends ApiController
+class ProductController extends ApiController
 {
 
     /**
@@ -23,23 +26,18 @@ class UserController extends ApiController
         $result = $larangCore->select($request->all(), [
             "responseType" => "result", // result or query
             "facets" => [
-                "userEmail" => [
+                "productEmail" => [
                     "type" => "list",
-                    "field" => "userEmail",
-                    "label" => "User Email"
+                    "field" => "productName",
+                    "label" => "Product Name"
                 ],
-                "userName" => [
-                    "type" => "list",
-                    "field" => "userName",
-                    "label" => "User Name"
-                ]
             ],
             "filter" => [
-                "rowType" => "rowType:User"
+                "rowType" => "rowType:Product"
             ],
             "search" => [
                 "type" => "simple",
-                "query" => 'searchTextUser:("*###SEARCHTERM###*")'
+                "query" => 'searchTextProduct:("*###SEARCHTERM###*")'
             ],
             "sort" => ["createdDate", "desc"]
         ]);
@@ -55,13 +53,17 @@ class UserController extends ApiController
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|unique:users,email',
-            'password' => 'required'
-        ]);
-
-        User::create($request->all());
+        $product = new Product();
+        $product->name = Input::get('name');
+        $product->upc = Input::get('upc');
+        $product->sku = Input::get('sku');
+        $product->ean = Input::get('ean');
+        $product->price = Input::get('price');
+        $product->saleprice = Input::get('saleprice');
+        //$product = Product::create($request->all());
+        if(!$product->save()) {
+            $this->throwArdentException($product->errors());
+        }
 
         return $this->response->created();
     }
@@ -74,9 +76,9 @@ class UserController extends ApiController
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $product = Product::findOrFail($id);
 
-        return $this->response->item($user, new UserTransformer());
+        return $this->response->item($product, new ProductTransformer());
     }
 
     /**
@@ -88,11 +90,7 @@ class UserController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required'
-        ]);
-
-        User::find($id)->update($request->all());
+        Product::find($id)->update($request->all());
 
         return $this->response->created($id);
     }
@@ -105,7 +103,7 @@ class UserController extends ApiController
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        $product = Product::findOrFail($id);
+        $product->delete();
     }
 }

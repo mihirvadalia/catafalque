@@ -46,8 +46,8 @@ class Solr {
             $this->_set_select_fields($this->selectConfig['fields']);
         }
 
-        $firstIndex = isset($request['firstIndex']) ? $request['firstIndex'] : 0;
-        $maxResult = isset($request['maxResult']) ? $request['maxResult'] : env('PAGINATION_MAX_ROWS');
+        $firstIndex = isset($request['start']) ? $request['start'] : 0;
+        $maxResult = isset($request['length']) ? $request['length'] : env('PAGINATION_MAX_ROWS');
         // Limit result set
         if (isset($this->selectConfig['paging']) && $this->selectConfig['paging'] == false) {
             $this->_set_limits(0, 2147483647);
@@ -55,7 +55,10 @@ class Solr {
             $this->_set_limits($firstIndex, $maxResult);
         }
 
-        list($sortOn, $sortBy) = isset($request['SORT_BY']) ? explode('-', $request['SORT_BY']) : $this->selectConfig['sort'];
+        //list($sortOn, $sortBy) = isset($request['SORT_BY']) ? explode('-', $request['SORT_BY']) : $this->selectConfig['sort'];
+        $cols = json_decode($request['cols'], true);
+        $sortOn = $cols[$request['order'][0]['column']]['data'];
+        $sortBy = $request['order'][0]['dir'];
         // Sort result set
         $this->_set_sorting($sortOn, $sortBy);
 
@@ -88,12 +91,12 @@ class Solr {
         // Fetching facets
         $facets = [];
         foreach ($this->selectConfig['facets'] as $facetKey => $facet) {
-            $facetList = $result->getFacetSet()->getFacet($facetKey);
-            $item = array();
-            foreach ($facetList as $field => $value) {
-                $item[$field] = $value;
+            if ($facet['type'] == 'list') {
+                $facetList = $result->getFacetSet()->getFacet($facetKey)->getValues();
+                $facets[$facet['label']]['list'] = $facetList;
+                $facets[$facet['label']]['type'] = $facet['type'];
+                $facets[$facet['label']]['name'] = $facet['field'];
             }
-            $facets[$facet['label']] = $item;
         }
 
         // Count of record
@@ -140,7 +143,7 @@ class Solr {
      */
     public function _set_search_filter($input) {
         if ($this->selectConfig['search']['type'] == 'simple') {
-            $searchParam = isset($input['SEARCHPARAM']) ? $input['SEARCHPARAM'] : '';
+            $searchParam = isset($input['search']['value']) ? $input['search']['value'] : '';
             if ($searchParam != '') {
                 $searchParam = str_replace(" ", "\ ", $searchParam);
                 $this->selectQuery->createFilterQuery('searchQuery')->setQuery(str_replace("###SEARCHTERM###", $searchParam, $this->selectConfig['search']['query']));
@@ -214,6 +217,20 @@ class Solr {
         $client = new \GuzzleHttp\Client();
         $request = $client->request('GET', $url);
         return json_decode($request->getBody()->getContents());
+    }
+
+    public function deleteDocument($documentId)
+    {
+        $update = $this->client->createUpdate();
+
+        // add the delete id and a commit command to the update query
+        $update->addDeleteById($documentId);
+        $update->addCommit();
+
+        // this executes the query and returns the result
+        $result = $this->client->update($update);
+
+        return $result->getStatus();
     }
 
 }

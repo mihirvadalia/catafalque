@@ -1,0 +1,8 @@
+{
+    "name": "renate/oauth2-grants",
+    "description": "Additional Grants for Mobile",
+    "type": "library",
+    "require": {
+        "lucadegasperi/oauth2-server-laravel": "5.2.*"
+    }
+}
